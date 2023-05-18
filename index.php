@@ -54,6 +54,7 @@ echo "<br>";
 var_dump($unit_price);
 
 $unit_price = 10.9;
+$unit_price = 10.9;
 // echo "<br>"
 
 var_dump($unit_price);
