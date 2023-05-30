@@ -1,0 +1,14 @@
+body {
+  clear: both;
+  margin: 0px;
+  padding: 0px;
+}
+.menu {
+  height: 60px;
+  background: #d87373;
+}
+.menu .user {
+  width: 100px;
+  float: right;
+  color: black;
+}
