@@ -12,3 +12,11 @@ body {
   float: right;
   color: black;
 }
+.content {
+  width: 60%;
+  margin: 0 auto;
+  padding-top: 100px;
+}
+.content td {
+  border-bottom: 1px solid black;
+}

@@ -1,10 +1,13 @@
 <?php
-$username = '';
+include 'config/db.php';
+
+$uname = '';
 if (!empty($_GET['username'])) {
-    $username = $_GET['username'];
+    $uname = $_GET['username'];
 }
 
-include 'config/db.php';
+$sql = "select * from tbl_student";
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -34,7 +37,7 @@ include 'config/db.php';
             <div class="user">
                 <div class="username">
                     <?php
-                    echo $username;
+                    echo $uname;
                     ?>
 
                 </div>
@@ -45,9 +48,58 @@ include 'config/db.php';
 
         </div>
 
+        <div class="content">
+            <table>
+                <?php
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+
+                        ?>
+
+                        <tr>
+                            <td>
+                                <?php echo $row['id']; ?>
+                            </td>
+                            <td>
+                                <?php echo $row['roll_num']; ?>
+                            </td>
+                            <td>
+                                <?php echo $row['first_name']; ?>
+                            </td>
+                            <td>
+                                <?php echo $row['last_name']; ?>
+                            </td>
+                            <td>
+                                <?php echo $row['gender']; ?>
+                            </td>
+                            <td>
+                                <?php echo $row['class_id']; ?>
+                            </td>
+                            <td>
+                                <?php echo $row['fee']; ?>
+                            </td>
+                            <td>
+                                <a href="http://localhost/basephp/edit.php?id=<?php echo $row['id']; ?>">Edit</a>
+
+                            </td>
+                            <td>
+                                <a href="">Delete</a>
+
+                            </td>
+                        </tr>
+
+                        <?php
+
+                    }
+                }
+                ?>
+            </table>
+        </div>
+
     </div>
 
     <script src="" async defer></script>
+
 </body>
 
 </html>
