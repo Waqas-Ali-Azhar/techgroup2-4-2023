@@ -9,24 +9,53 @@ $row = array(
     'fee' => '',
 );
 
-if (!empty($_GET['rollnumber'])) {
-    $first_name = $_GET['first_name'];
-    $last_name = $_GET['last_name'];
-    $gender = $_GET['gender'];
-    $fee = $_GET['fee'];
-    $update_id = $_GET['id'];
 
-    $sql = "update tbl_student SET first_name='" . $first_name . "', last_name='" . $last_name . "', gender='" . $gender . "', fee='" . $fee . "' where id=" . $update_id;
-    $result = $conn->query($sql);
-    if ($result) {
-        echo "Updated Succesfully";
-    }
+if (!empty($_GET['add'])) {
+    $add = 1;
+}
+if (!empty($_GET['edit'])) {
+    $edit = 1;
 }
 if (!empty($_GET['id'])) {
+    $id = $_GET['id'];
+}
 
-    $edit_id = $_GET['id'];
 
-    $sql = "select * from tbl_student where id=" . $edit_id;
+if (!empty($_GET['rollnumber'])) {
+    $form_data = 1;
+    $roll_number = !empty($_GET['rollnumber']) ? $_GET['rollnumber'] : '';
+    $first_name = !empty($_GET['first_name']) ? $_GET['first_name'] : '';
+    $last_name = !empty($_GET['last_name']) ? $_GET['last_name'] : '';
+    $gender = !empty($_GET['gender']) ? $_GET['gender'] : '';
+    $fee = !empty($_GET['fee']) ? $_GET['fee'] : '';
+}
+
+
+
+
+if ($add) {
+
+    if (!empty($_GET['rollnumber'])) {
+        // Adding a new record form
+    }
+}
+
+if ($adit) {
+
+    if (!empty($_GET['rollnumber'])) {
+        // Updating a new record with form
+    }
+}
+
+
+
+
+
+if ($id) {
+
+    $sql = "select * from tbl_student where id=" . $id;
+
+
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -34,8 +63,69 @@ if (!empty($_GET['id'])) {
     }
 
 
+}
+
+
+// run for add /edit form
+
+if (!empty($_GET['rollnumber'])) {
+    $roll_number = !empty($_GET['rollnumber']) ? $_GET['rollnumber'] : '';
+    $first_name = !empty($_GET['first_name']) ? $_GET['first_name'] : '';
+    $last_name = !empty($_GET['last_name']) ? $_GET['last_name'] : '';
+    $gender = !empty($_GET['gender']) ? $_GET['gender'] : '';
+    $fee = !empty($_GET['fee']) ? $_GET['fee'] : '';
+}
+
+
+
+$sql = '';
+// Add new Record
+if (!empty($_GET['add']) && !empty($_GET['rollnumber'])) {
+
+    $sql = "insert into tbl_student (roll_num, first_name, last_name, gender, fee) Values ('" . $roll_number . "','" . $first_name . "','" . $last_name . "','" . $gender . "','" . $fee . "')";
+} elseif (!empty($_GET['edit'])) {
+
+    $sql = "update tbl_student SET first_name='" . $first_name . "', last_name='" . $last_name . "', gender='" . $gender . "', fee='" . $fee . "' where id=" . $update_id;
+}
+
+if ($sql) {
+    $result = $conn->query($sql);
+    if (!empty($_GET['add']) && $result) {
+        $id = $conn->insert_id;
+
+        echo "Added Succefully";
+    } elseif (!empty($_GET['edit']) && $result) {
+        $id = $_GET['id'];
+        echo "Updated Succesfully";
+    }
+} else {
+    //dashboard edit link
+    $id = !empty($_GET['id']) ? $_GET['id'] : '';
+}
+
+// read data
+
+
+if ($id) {
+
+    $sql = "select * from tbl_student where id=" . $id;
+
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+    }
+
 
 }
+
+
+
+
+
+
+
 
 
 ?>
@@ -101,9 +191,30 @@ if (!empty($_GET['id'])) {
                         <input type="text" name="fee" value="<?php echo $row['fee']; ?>" />
                 </div>
 
-                <div class="field-group">
-                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>" />
-                    <input type="submit" value="Update">
+                <br><br><br>
+
+                <div class="field-group ib">
+                    <?php
+                    if (!empty($_GET['id'])) {
+                        ?>
+                        <input type="hidden" name="id" value="<?php echo $row['id']; ?>" />
+                        <input type="hidden" name="edit" value="1" />
+                        <input type="submit" value="Update">
+                        <?php
+                    } else {
+                        ?>
+
+                        <input type="hidden" name="add" value="1">
+                        <input type="submit" value="Add">
+
+                        <?php
+                    }
+
+                    ?>
+                </div>
+
+                <div class="field-group ib">
+                    <a class="btn btn-default" href="dashboard.php">Goto Dashboard</a>
                 </div>
 
             </form>

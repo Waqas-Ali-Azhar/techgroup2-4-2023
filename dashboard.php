@@ -49,6 +49,10 @@ $result = $conn->query($sql);
         </div>
 
         <div class="content">
+            <div class="controls">
+                <a class="btn btn-default" href="edit.php?add=1">Add New</a>
+            </div>
+            <br>
             <table>
                 <?php
                 if ($result->num_rows > 0) {
